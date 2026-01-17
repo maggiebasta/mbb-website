@@ -293,7 +293,7 @@ body::after {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
+    aspect-ratio: 16 / 9;
     background:
         linear-gradient(135deg,
             rgba(0, 255, 255, 0.05) 0%,
@@ -318,6 +318,10 @@ body::after {
     text-shadow:
         1px 0 0 var(--color-magenta),
         -1px 0 0 var(--color-teal);
+}
+
+.post-card:hover .post-excerpt {
+    text-decoration: underline;
 }
 
 .post-image {
