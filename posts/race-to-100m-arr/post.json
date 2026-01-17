@@ -1,0 +1,10 @@
+{
+  "id": 4,
+  "slug": "race-to-100m-arr",
+  "title": "The Race to $100M ARR",
+  "category": "Analysis",
+  "date": "Jan 16, 2026",
+  "excerpt": "There is actually no meaningful correlation between how quickly a generational startup gets to $100M in ARR and the magnitude of its eventual success.",
+  "image": "cover.svg",
+  "hasChart": true
+}

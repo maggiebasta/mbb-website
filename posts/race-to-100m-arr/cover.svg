@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <rect fill="#0a0a0a" width="800" height="450"/>
+  <text x="400" y="200" text-anchor="middle" fill="#00ffff" font-family="serif" font-size="48" font-style="italic">$100M</text>
+  <text x="400" y="260" text-anchor="middle" fill="#ff6b35" font-family="serif" font-size="24">ARR</text>
+  <circle cx="200" cy="350" r="40" fill="none" stroke="#00d4aa" stroke-width="2" opacity="0.5"/>
+  <circle cx="600" cy="100" r="60" fill="none" stroke="#d4380d" stroke-width="2" opacity="0.5"/>
+</svg>
