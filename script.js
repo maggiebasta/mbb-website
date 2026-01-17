@@ -2,10 +2,52 @@
 let blogPosts = [];
 let chartData = [];
 
+// Fallback embedded post data (for file:// protocol)
+const embeddedPosts = [
+    {
+        id: 4,
+        slug: "race-to-100m-arr",
+        title: "The Race to $100M ARR",
+        category: "Analysis",
+        date: "Jan 16, 2026",
+        excerpt: "There is actually no meaningful correlation between how quickly a generational startup gets to $100M in ARR and the magnitude of its eventual success.",
+        image: "posts/race-to-100m-arr/cover.svg",
+        hasChart: true
+    },
+    {
+        id: 1,
+        slug: "building-in-public",
+        title: "On Building in Public",
+        category: "Thoughts",
+        date: "Jan 15, 2026",
+        excerpt: "Reflections on the journey of sharing your work openly and the unexpected benefits that come from transparency.",
+        image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80&sat=-100&con=30"
+    },
+    {
+        id: 2,
+        slug: "deep-work",
+        title: "The Art of Deep Work",
+        category: "Productivity",
+        date: "Jan 10, 2026",
+        excerpt: "In a world of constant distractions, the ability to focus deeply has become a superpower. Here's how to cultivate it.",
+        image: "https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=800&q=80"
+    },
+    {
+        id: 3,
+        slug: "minimalism-and-technology",
+        title: "Minimalism and Technology",
+        category: "Life",
+        date: "Jan 5, 2026",
+        excerpt: "How adopting a minimalist approach to technology has improved my focus, creativity, and overall well-being.",
+        image: "https://images.unsplash.com/photo-1550859492-d5da9d8e45f3?w=800&q=80"
+    }
+];
+
 // Load all posts from manifest
 async function loadPostsFromManifest() {
     try {
         const manifestRes = await fetch('posts/manifest.json');
+        if (!manifestRes.ok) throw new Error('Failed to fetch manifest');
         const slugs = await manifestRes.json();
         
         const posts = await Promise.all(slugs.map(async (slug) => {
@@ -22,19 +64,109 @@ async function loadPostsFromManifest() {
         
         return posts;
     } catch (error) {
-        console.error('Error loading posts:', error);
-        return [];
+        console.warn('Using embedded posts (fetch failed, likely file:// protocol):', error.message);
+        return embeddedPosts;
     }
 }
+
+// Fallback embedded content
+const embeddedContent = {
+    "race-to-100m-arr": `<p>So, it turns out there is actually no meaningful correlation between how quickly a generational startup gets to $100M in ARR and the magnitude of its eventual success.</p>
+<p>Decided to pull this data because every time you turn a corner in SF, there is another VC debating whether the "triple-triple-double-double-double" paradigm is dead because a handful of ripping AI startups are sucking the air out the room for everyone else. That would suggest that nuking to $100M overnight is the only way to win.</p>
+<p>But if the past is any indicator, that's probably… not true.</p>
+<div id="chart-exit-value" class="chart-container"></div>
+<p>There have always been companies that blow traditional growth benchmarks out of the water and ones that grow more steadily over time. (We've all seen the "Fastest to $100M" charts). But when you actually compare that speed to the size of eventual outcomes, there is really no correlation. In fact, if you look at the value of these companies at their respective peaks, there is actually a slightly inverse relationship between speed and success.</p>
+<div id="chart-peak-value" class="chart-container"></div>
+<h2>Takeaways</h2>
+<p><strong>(1) $100M is a milestone (albeit an important one), but it's not the final destination.</strong> We are talking about truly generational companies. At that level of scale, the real north star looks more like ten billion than hundreds of millions, and in case you forgot, $100M is just 1% of $10B.</p>
+<p><strong>(2) Speed is not the only playbook.</strong> Time to $100M isn't destiny, and some of the biggest outcomes took longer to get there while others around them grew faster.</p>
+<p>To be abundantly clear, getting to $100M that quickly is an extremely impressive feat and indicative of companies building incredible products. That should not be discounted, and we will 100% continue to look for these kinds of investments. Too far in the other extreme is also true (limping to $100M with decelerating growth is probably not… great). But none of that detracts from the fact that it is a long road to success in this industry. There are many ways up the mountain, and it takes time to build something enduring!</p>`,
+    "building-in-public": `<p>There's something liberating about building in public. It's the act of sharing your progress, your failures, and your learnings as they happen—not after you've achieved some arbitrary milestone of "success."</p>
+<h2>Why It Matters</h2>
+<p>When you build in public, you create accountability. You transform abstract ideas into concrete commitments. The simple act of sharing what you're working on makes it real in a way that private projects never quite achieve.</p>
+<p>But more importantly, you create connections. People resonate with the journey, not just the destination. They want to see the messy middle, the pivots, the moments of doubt.</p>
+<h2>The Unexpected Benefits</h2>
+<p>I've found that building in public leads to:</p>
+<ul><li>Serendipitous connections with like-minded builders</li><li>Feedback that saves you months of wasted effort</li><li>A documented journey you can look back on</li><li>Opportunities you never could have predicted</li></ul>
+<blockquote>"The best time to start was yesterday. The second best time is now."</blockquote>
+<h2>Getting Started</h2>
+<p>You don't need a massive audience or a perfect platform. Start small:</p>
+<ul><li>Share one thing you learned today</li><li>Post a screenshot of what you're building</li><li>Write about a problem you're trying to solve</li></ul>
+<p>The magic isn't in the size of your audience—it's in the consistency of showing up and the authenticity of your voice.</p>`,
+    "deep-work": `<p>Deep work is the ability to focus without distraction on a cognitively demanding task. It's a skill that's increasingly rare and therefore increasingly valuable in our distraction-filled world.</p>
+<h2>The Cost of Context Switching</h2>
+<p>Every time you switch tasks, there's a cognitive cost. Your brain doesn't instantly transition—it leaves "attention residue" behind. This residue makes it harder to focus on the new task and reduces your cognitive performance.</p>
+<p>Research shows that it can take 23 minutes to fully refocus after a distraction. Yet most knowledge workers check their email or messages every 6 minutes. The math doesn't add up.</p>
+<h2>Building a Deep Work Practice</h2>
+<p>Here's what's worked for me:</p>
+<h3>1. Schedule Deep Work Sessions</h3>
+<p>Block out specific times for deep work. Treat these blocks as sacred—no meetings, no email, no exceptions. Start with 90-minute sessions and build from there.</p>
+<h3>2. Create Rituals</h3>
+<p>Develop a routine that signals to your brain it's time to focus. This might be:</p>
+<ul><li>Making a specific type of coffee</li><li>Putting on focus music</li><li>Moving to a specific location</li><li>Doing a brief meditation</li></ul>
+<h3>3. Eliminate Digital Distractions</h3>
+<p>Use tools to block distracting websites. Put your phone in another room. Close unnecessary browser tabs. The goal is to make distraction difficult enough that you can overcome the impulse.</p>
+<blockquote>"Clarity about what matters provides clarity about what does not." - Cal Newport</blockquote>
+<h2>The Compound Effect</h2>
+<p>The magic of deep work isn't in any single session—it's in the compound effect of consistent, focused effort over time. Small improvements compound into extraordinary results.</p>
+<p>Your ability to do deep work will determine your ability to create work that matters. It's worth the effort to protect and cultivate this skill.</p>`,
+    "minimalism-and-technology": `<p>We live in an age of digital abundance. More apps, more notifications, more content than we could consume in a lifetime. But abundance isn't always better.</p>
+<h2>The Paradox of Choice</h2>
+<p>Having too many options can be paralyzing. Every app you install, every platform you join, every subscription you maintain adds cognitive overhead—even if you're not actively using them.</p>
+<p>Minimalism in technology isn't about deprivation. It's about being intentional. It's about choosing the tools that serve your goals and removing everything else.</p>
+<h2>My Digital Minimalism Experiment</h2>
+<p>Last year, I decided to radically simplify my digital life. Here's what I did:</p>
+<h3>Apps</h3>
+<ul><li>Removed all social media apps from my phone</li><li>Kept only essential communication tools</li><li>Deleted apps I hadn't used in 3 months</li></ul>
+<h3>Content Consumption</h3>
+<ul><li>Unsubscribed from all newsletters except 3</li><li>Unfollowed most accounts on remaining platforms</li><li>Set specific times for content consumption</li></ul>
+<h3>Notifications</h3>
+<ul><li>Disabled all non-essential notifications</li><li>Kept only calls and messages from key contacts</li><li>Embraced asynchronous communication</li></ul>
+<h2>The Results</h2>
+<p>The impact was immediate and profound:</p>
+<ul><li>More time for deep work and creative projects</li><li>Reduced anxiety and FOMO</li><li>Better sleep quality</li><li>Improved relationships (more present in conversations)</li><li>Clearer thinking and decision-making</li></ul>
+<blockquote>"Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away." - Antoine de Saint-Exupéry</blockquote>
+<h2>Start Small</h2>
+<p>You don't need to do everything at once. Start with one change:</p>
+<ul><li>Remove one app from your home screen</li><li>Unsubscribe from 5 newsletters</li><li>Turn off one category of notifications</li></ul>
+<p>Notice how it feels. Then do it again. Small changes compound into transformative results.</p>`
+};
+
+const embeddedChartData = [
+    { company: "Splunk", months: 74, exitValue: 6.9, peakValue: 36.1 },
+    { company: "ServiceNow", months: 72, exitValue: 8.7, peakValue: 235.0 },
+    { company: "Docusign", months: 108, exitValue: 19.82, peakValue: 61.1 },
+    { company: "Shopify", months: 86, exitValue: 9.17, peakValue: 205.9 },
+    { company: "UiPath", months: 24, exitValue: 6.7, peakValue: 45.3 },
+    { company: "Box", months: 88, exitValue: 2.11, peakValue: 5.9 },
+    { company: "Bill", months: 105, exitValue: 25.2, peakValue: 34.1 },
+    { company: "Hubspot", months: 80, exitValue: 1.94, peakValue: 41.43 },
+    { company: "Mongo", months: 90, exitValue: 6.6, peakValue: 38.1 },
+    { company: "Twilio", months: 62, exitValue: 5.6, peakValue: 68.5 },
+    { company: "Slack", months: 36, exitValue: 25.2, peakValue: 32.0 },
+    { company: "Datadog", months: 66, exitValue: 43.5, peakValue: 60.7 },
+    { company: "Gitlab", months: 42, exitValue: 6.1, peakValue: 18.9 },
+    { company: "Elastic", months: 42, exitValue: 9.7, peakValue: 16.8 },
+    { company: "Snowflake", months: 52, exitValue: 54.3, peakValue: 116.0 },
+    { company: "HashiCorp", months: 50, exitValue: 2.83, peakValue: 17.6 },
+    { company: "Confluent", months: 32, exitValue: 9.1, peakValue: 23.8 },
+    { company: "Rubrik", months: 18, exitValue: 18.1, peakValue: 18.1 },
+    { company: "Deel", months: 20, exitValue: 12.0, peakValue: 12.0 },
+    { company: "Wiz", months: 18, exitValue: 32.0, peakValue: 32.0 },
+    { company: "Ramp", months: 24, exitValue: 13.0, peakValue: 13.0 },
+    { company: "Canva", months: 96, exitValue: 26.0, peakValue: 26.0 },
+    { company: "Zoom", months: 50, exitValue: 91.1, peakValue: 160.0 }
+];
 
 // Load individual post content
 async function loadPostContent(slug) {
     try {
         const contentRes = await fetch(`posts/${slug}/content.html`);
+        if (!contentRes.ok) throw new Error('Failed to fetch content');
         return await contentRes.text();
     } catch (error) {
-        console.error('Error loading post content:', error);
-        return '';
+        console.warn('Using embedded content for:', slug);
+        return embeddedContent[slug] || '';
     }
 }
 
@@ -42,10 +174,11 @@ async function loadPostContent(slug) {
 async function loadChartData(slug) {
     try {
         const dataRes = await fetch(`posts/${slug}/data/chart-data.json`);
+        if (!dataRes.ok) throw new Error('Failed to fetch chart data');
         return await dataRes.json();
     } catch (error) {
-        console.error('Error loading chart data:', error);
-        return [];
+        console.warn('Using embedded chart data');
+        return embeddedChartData;
     }
 }
 
