@@ -63,7 +63,7 @@ async function renderPost(posts) {
         return;
     }
 
-    document.title = `${post.title} - MBB Blog`;
+    document.title = `${post.title} - The Spoils of Overthinking`;
 
     const articleHeader = document.querySelector('.article-header .container');
     if (articleHeader) {
@@ -162,22 +162,15 @@ function renderChart(containerId, valueKey, yLabel, maxY) {
         <svg viewBox="0 0 ${width} ${height}" class="themed-chart">
             <defs>
                 <linearGradient id="gridGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#00ffff;stop-opacity:0.1"/>
-                    <stop offset="100%" style="stop-color:#ff6b35;stop-opacity:0.1"/>
+                    <stop offset="0%" style="stop-color:#a8d5e2;stop-opacity:0.15"/>
+                    <stop offset="100%" style="stop-color:#f4a582;stop-opacity:0.15"/>
                 </linearGradient>
-                <filter id="glow">
-                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                    <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                </filter>
             </defs>
-            
+
             <!-- Background -->
-            <rect x="0" y="0" width="${width}" height="${height}" fill="#0a0a0a"/>
-            <rect x="${padding.left}" y="${padding.top}" width="${chartWidth}" height="${chartHeight}" fill="url(#gridGrad)" opacity="0.3"/>
-            
+            <rect x="0" y="0" width="${width}" height="${height}" fill="rgba(255, 255, 255, 0.5)"/>
+            <rect x="${padding.left}" y="${padding.top}" width="${chartWidth}" height="${chartHeight}" fill="url(#gridGrad)" opacity="0.4"/>
+
             <!-- Grid lines -->
     `;
 
@@ -185,21 +178,21 @@ function renderChart(containerId, valueKey, yLabel, maxY) {
     for (let i = 0; i <= 5; i++) {
         const y = padding.top + (i / 5) * chartHeight;
         const value = maxY - (i / 5) * maxY;
-        svg += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="#2a2a2a" stroke-width="1"/>`;
-        svg += `<text x="${padding.left - 15}" y="${y + 5}" text-anchor="end" fill="#8a8a8a" font-family="'EB Garamond', serif" font-size="14">$${Math.round(value)}B</text>`;
+        svg += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>`;
+        svg += `<text x="${padding.left - 15}" y="${y + 5}" text-anchor="end" fill="#6a6a6a" font-family="Inter, sans-serif" font-size="13" font-weight="300">$${Math.round(value)}B</text>`;
     }
 
     // X-axis grid lines
     for (let i = 0; i <= 4; i++) {
         const x = padding.left + (i / 4) * chartWidth;
         const months = Math.round((i / 4) * maxMonths);
-        svg += `<line x1="${x}" y1="${padding.top}" x2="${x}" y2="${height - padding.bottom}" stroke="#2a2a2a" stroke-width="1"/>`;
-        svg += `<text x="${x}" y="${height - padding.bottom + 25}" text-anchor="middle" fill="#8a8a8a" font-family="'EB Garamond', serif" font-size="14">${months}</text>`;
+        svg += `<line x1="${x}" y1="${padding.top}" x2="${x}" y2="${height - padding.bottom}" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>`;
+        svg += `<text x="${x}" y="${height - padding.bottom + 25}" text-anchor="middle" fill="#6a6a6a" font-family="Inter, sans-serif" font-size="13" font-weight="300">${months}</text>`;
     }
 
     // Axis labels
-    svg += `<text x="${width / 2}" y="${height - 20}" text-anchor="middle" fill="#e8e8e8" font-family="'Crimson Pro', serif" font-size="16" font-style="italic">Months to $100M ARR</text>`;
-    svg += `<text x="25" y="${height / 2}" text-anchor="middle" fill="#e8e8e8" font-family="'Crimson Pro', serif" font-size="16" font-style="italic" transform="rotate(-90, 25, ${height / 2})">${yLabel}</text>`;
+    svg += `<text x="${width / 2}" y="${height - 20}" text-anchor="middle" fill="#2d2d2d" font-family="'Crimson Pro', serif" font-size="15" font-style="italic" font-weight="300">Months to $100M ARR</text>`;
+    svg += `<text x="25" y="${height / 2}" text-anchor="middle" fill="#2d2d2d" font-family="'Crimson Pro', serif" font-size="15" font-style="italic" font-weight="300" transform="rotate(-90, 25, ${height / 2})">${yLabel}</text>`;
 
     // Trend line
     const sortedData = [...chartData].sort((a, b) => a.months - b.months);
@@ -219,23 +212,25 @@ function renderChart(containerId, valueKey, yLabel, maxY) {
     const trendY1 = slope * trendX1 + intercept;
     const trendY2 = slope * trendX2 + intercept;
     
-    svg += `<line x1="${xScale(trendX1)}" y1="${yScale(Math.max(0, trendY1))}" x2="${xScale(trendX2)}" y2="${yScale(Math.max(0, trendY2))}" stroke="#00d4aa" stroke-width="2" stroke-dasharray="8,4" opacity="0.6"/>`;
-    svg += `<text x="${xScale(trendX2) + 10}" y="${yScale(Math.max(0, trendY2))}" fill="#00d4aa" font-family="'EB Garamond', serif" font-size="12" opacity="0.8">Trend</text>`;
+    svg += `<line x1="${xScale(trendX1)}" y1="${yScale(Math.max(0, trendY1))}" x2="${xScale(trendX2)}" y2="${yScale(Math.max(0, trendY2))}" stroke="#7ec8e3" stroke-width="2" stroke-dasharray="8,4" opacity="0.5"/>`;
 
     // Data points
     chartData.forEach((d, i) => {
         const x = xScale(d.months);
         const y = yScale(d[valueKey]);
-        const color = d.months < 40 ? '#00ffff' : d.months < 70 ? '#00d4aa' : '#ff6b35';
+        const color = d.months < 40 ? '#7ec8e3' : d.months < 70 ? '#a8c686' : '#f4a582';
         const value = d[valueKey];
-        
+
         svg += `
             <g class="data-point" data-company="${d.company}" data-value="${value}" data-months="${d.months}">
-                <circle class="point-glow" cx="${x}" cy="${y}" r="16" fill="${color}" opacity="0"/>
-                <circle class="point-outer" cx="${x}" cy="${y}" r="8" fill="${color}" opacity="0.9"/>
-                <circle class="point-inner" cx="${x}" cy="${y}" r="4" fill="#0a0a0a"/>
-                <text class="point-label" x="${x}" y="${y - 20}" text-anchor="middle" fill="#ffffff" font-family="'Crimson Pro', serif" font-size="14" font-weight="600" opacity="0">${d.company}</text>
-                <text class="point-value" x="${x}" y="${y - 35}" text-anchor="middle" fill="${color}" font-family="'EB Garamond', serif" font-size="13" opacity="0">$${value.toFixed(1)}B · ${d.months}mo</text>
+                <circle class="point-glow-4" cx="${x}" cy="${y}" r="18" fill="${color}" opacity="0"/>
+                <circle class="point-glow-3" cx="${x}" cy="${y}" r="14" fill="${color}" opacity="0"/>
+                <circle class="point-glow-2" cx="${x}" cy="${y}" r="11" fill="${color}" opacity="0"/>
+                <circle class="point-glow-1" cx="${x}" cy="${y}" r="9" fill="${color}" opacity="0"/>
+                <circle class="point-outer" cx="${x}" cy="${y}" r="7" fill="${color}" opacity="0.8"/>
+                <circle class="point-inner" cx="${x}" cy="${y}" r="3" fill="rgba(255, 255, 255, 0.9)"/>
+                <text class="point-label" x="${x}" y="${y - 18}" text-anchor="middle" fill="#2d2d2d" font-family="'Crimson Pro', serif" font-size="13" font-weight="400" font-style="italic" opacity="0">${d.company}</text>
+                <text class="point-value" x="${x}" y="${y - 32}" text-anchor="middle" fill="#6a6a6a" font-family="Inter, sans-serif" font-size="12" font-weight="300" opacity="0">$${value.toFixed(1)}B · ${d.months}mo</text>
             </g>
         `;
     });
@@ -246,18 +241,42 @@ function renderChart(containerId, valueKey, yLabel, maxY) {
     // Add hover interactions
     container.querySelectorAll('.data-point').forEach(point => {
         point.style.cursor = 'pointer';
+
         point.addEventListener('mouseenter', () => {
-            point.querySelector('.point-glow').style.opacity = '0.3';
-            point.querySelector('.point-glow').style.filter = 'blur(8px)';
-            point.querySelector('.point-outer').style.transform = 'scale(1.2)';
+            // Move this element to the end (render on top)
+            point.parentNode.appendChild(point);
+
+            point.querySelector('.point-outer').style.transform = 'scale(1.3)';
             point.querySelector('.point-outer').style.transformOrigin = 'center';
             point.querySelector('.point-outer').style.transformBox = 'fill-box';
+            point.querySelector('.point-outer').style.transition = 'all 0.3s ease';
+
+            // Fade in glow circles with progressively lower opacity
+            const glow1 = point.querySelector('.point-glow-1');
+            const glow2 = point.querySelector('.point-glow-2');
+            const glow3 = point.querySelector('.point-glow-3');
+            const glow4 = point.querySelector('.point-glow-4');
+            if (glow1) { glow1.style.opacity = '0.25'; glow1.style.transition = 'opacity 0.3s ease'; }
+            if (glow2) { glow2.style.opacity = '0.18'; glow2.style.transition = 'opacity 0.3s ease'; }
+            if (glow3) { glow3.style.opacity = '0.12'; glow3.style.transition = 'opacity 0.3s ease'; }
+            if (glow4) { glow4.style.opacity = '0.06'; glow4.style.transition = 'opacity 0.3s ease'; }
+
             point.querySelector('.point-label').style.opacity = '1';
             point.querySelector('.point-value').style.opacity = '1';
         });
         point.addEventListener('mouseleave', () => {
-            point.querySelector('.point-glow').style.opacity = '0';
             point.querySelector('.point-outer').style.transform = 'scale(1)';
+
+            // Fade out glow circles
+            const glow1 = point.querySelector('.point-glow-1');
+            const glow2 = point.querySelector('.point-glow-2');
+            const glow3 = point.querySelector('.point-glow-3');
+            const glow4 = point.querySelector('.point-glow-4');
+            if (glow1) glow1.style.opacity = '0';
+            if (glow2) glow2.style.opacity = '0';
+            if (glow3) glow3.style.opacity = '0';
+            if (glow4) glow4.style.opacity = '0';
+
             point.querySelector('.point-label').style.opacity = '0';
             point.querySelector('.point-value').style.opacity = '0';
         });
@@ -306,8 +325,8 @@ function renderAgeDistributionChart() {
         <svg viewBox="0 0 ${width} ${height}" class="themed-chart">
             <defs>
                 <linearGradient id="ageGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#00ffff;stop-opacity:0.8"/>
-                    <stop offset="100%" style="stop-color:#00d4aa;stop-opacity:0.8"/>
+                    <stop offset="0%" style="stop-color:#7ec8e3;stop-opacity:0.8"/>
+                    <stop offset="100%" style="stop-color:#a8d5e2;stop-opacity:0.8"/>
                 </linearGradient>
                 <filter id="glow">
                     <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -317,15 +336,15 @@ function renderAgeDistributionChart() {
                     </feMerge>
                 </filter>
             </defs>
-            
-            <rect x="0" y="0" width="${width}" height="${height}" fill="#0a0a0a"/>
+
+            <rect x="0" y="0" width="${width}" height="${height}" fill="rgba(255, 255, 255, 0.5)"/>
     `;
 
     // Grid lines
     for (let i = 0; i <= maxCount; i++) {
         const y = padding.top + chartHeight - (i / maxCount) * chartHeight;
-        svg += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="#2a2a2a" stroke-width="1"/>`;
-        svg += `<text x="${padding.left - 15}" y="${y + 5}" text-anchor="end" fill="#8a8a8a" font-family="'EB Garamond', serif" font-size="14">${i}</text>`;
+        svg += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>`;
+        svg += `<text x="${padding.left - 15}" y="${y + 5}" text-anchor="end" fill="#6a6a6a" font-family="Inter, sans-serif" font-size="13" font-weight="300">${i}</text>`;
     }
 
     // Bars
@@ -334,20 +353,20 @@ function renderAgeDistributionChart() {
         const barHeight = (bucketCounts[i] / maxCount) * chartHeight;
         const y = padding.top + chartHeight - barHeight;
         const companies = bucketCompanies[i].join(', ');
-        
+
         svg += `
             <g class="bar-group" data-bucket="${bucket}" data-count="${bucketCounts[i]}" data-companies="${companies}">
-                <rect class="bar-glow" x="${x - 2}" y="${y - 2}" width="${barWidth + 4}" height="${barHeight + 4}" fill="#00ffff" opacity="0" filter="url(#glow)"/>
-                <rect class="bar" x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="url(#ageGrad)" opacity="0.8"/>
-                <text x="${x + barWidth / 2}" y="${height - padding.bottom + 25}" text-anchor="middle" fill="#e8e8e8" font-family="'EB Garamond', serif" font-size="14">${bucket}</text>
-                <text class="count-label" x="${x + barWidth / 2}" y="${y - 10}" text-anchor="middle" fill="#00ffff" font-family="'Crimson Pro', serif" font-size="16" font-weight="600" opacity="0">${bucketCounts[i]}</text>
+                <rect class="bar-glow" x="${x - 2}" y="${y - 2}" width="${barWidth + 4}" height="${barHeight + 4}" fill="#7ec8e3" opacity="0" filter="url(#glow)"/>
+                <rect class="bar" x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="url(#ageGrad)" opacity="0.85"/>
+                <text x="${x + barWidth / 2}" y="${height - padding.bottom + 25}" text-anchor="middle" fill="#2d2d2d" font-family="Inter, sans-serif" font-size="13" font-weight="300">${bucket}</text>
+                <text class="count-label" x="${x + barWidth / 2}" y="${y - 10}" text-anchor="middle" fill="#5499a0" font-family="'Crimson Pro', serif" font-size="15" font-weight="400" font-style="italic" opacity="0">${bucketCounts[i]}</text>
             </g>
         `;
     });
 
     // Axis labels
-    svg += `<text x="${width / 2}" y="${height - 20}" text-anchor="middle" fill="#e8e8e8" font-family="'Crimson Pro', serif" font-size="16" font-style="italic">Age at Founding</text>`;
-    svg += `<text x="25" y="${height / 2}" text-anchor="middle" fill="#e8e8e8" font-family="'Crimson Pro', serif" font-size="16" font-style="italic" transform="rotate(-90, 25, ${height / 2})">Number of Founders</text>`;
+    svg += `<text x="${width / 2}" y="${height - 20}" text-anchor="middle" fill="#2d2d2d" font-family="'Crimson Pro', serif" font-size="15" font-style="italic" font-weight="300">Age at Founding</text>`;
+    svg += `<text x="25" y="${height / 2}" text-anchor="middle" fill="#2d2d2d" font-family="'Crimson Pro', serif" font-size="15" font-style="italic" font-weight="300" transform="rotate(-90, 25, ${height / 2})">Number of Founders</text>`;
 
     svg += `</svg>`;
     container.innerHTML = svg;
@@ -384,8 +403,8 @@ function renderHometownChart() {
         <svg viewBox="0 0 ${width} ${height}" class="themed-chart">
             <defs>
                 <linearGradient id="hometownGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#d4380d;stop-opacity:0.8"/>
-                    <stop offset="100%" style="stop-color:#ff6b35;stop-opacity:0.8"/>
+                    <stop offset="0%" style="stop-color:#f4a582;stop-opacity:0.8"/>
+                    <stop offset="100%" style="stop-color:#fdae84;stop-opacity:0.8"/>
                 </linearGradient>
                 <filter id="glow">
                     <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -395,15 +414,15 @@ function renderHometownChart() {
                     </feMerge>
                 </filter>
             </defs>
-            
-            <rect x="0" y="0" width="${width}" height="${height}" fill="#0a0a0a"/>
+
+            <rect x="0" y="0" width="${width}" height="${height}" fill="rgba(255, 255, 255, 0.5)"/>
     `;
 
     // Grid lines
     for (let i = 0; i <= maxCount; i++) {
         const y = padding.top + chartHeight - (i / maxCount) * chartHeight;
-        svg += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="#2a2a2a" stroke-width="1"/>`;
-        svg += `<text x="${padding.left - 15}" y="${y + 5}" text-anchor="end" fill="#8a8a8a" font-family="'EB Garamond', serif" font-size="14">${i}</text>`;
+        svg += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>`;
+        svg += `<text x="${padding.left - 15}" y="${y + 5}" text-anchor="end" fill="#6a6a6a" font-family="Inter, sans-serif" font-size="13" font-weight="300">${i}</text>`;
     }
 
     // Bars
@@ -412,22 +431,22 @@ function renderHometownChart() {
         const barHeight = (hometownCounts[region] / maxCount) * chartHeight;
         const y = padding.top + chartHeight - barHeight;
         const companies = hometownCompanies[region].join(', ');
-        
+
         const labelX = x + barWidth / 2;
         const labelY = height - padding.bottom + 15;
         svg += `
             <g class="bar-group" data-region="${region}" data-count="${hometownCounts[region]}" data-companies="${companies}">
-                <rect class="bar-glow" x="${x - 2}" y="${y - 2}" width="${barWidth + 4}" height="${barHeight + 4}" fill="#ff6b35" opacity="0" filter="url(#glow)"/>
-                <rect class="bar" x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="url(#hometownGrad)" opacity="0.8"/>
-                <text x="${labelX}" y="${labelY}" text-anchor="end" fill="#e8e8e8" font-family="'EB Garamond', serif" font-size="11" transform="rotate(-45, ${labelX}, ${labelY})">${region}</text>
-                <text class="count-label" x="${x + barWidth / 2}" y="${y - 10}" text-anchor="middle" fill="#ff6b35" font-family="'Crimson Pro', serif" font-size="16" font-weight="600" opacity="0">${hometownCounts[region]}</text>
+                <rect class="bar-glow" x="${x - 2}" y="${y - 2}" width="${barWidth + 4}" height="${barHeight + 4}" fill="#f4a582" opacity="0" filter="url(#glow)"/>
+                <rect class="bar" x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="url(#hometownGrad)" opacity="0.85"/>
+                <text x="${labelX}" y="${labelY}" text-anchor="end" fill="#2d2d2d" font-family="Inter, sans-serif" font-size="11" font-weight="300" transform="rotate(-45, ${labelX}, ${labelY})">${region}</text>
+                <text class="count-label" x="${x + barWidth / 2}" y="${y - 10}" text-anchor="middle" fill="#f4a582" font-family="'Crimson Pro', serif" font-size="15" font-weight="400" font-style="italic" opacity="0">${hometownCounts[region]}</text>
             </g>
         `;
     });
 
     // Axis labels
-    svg += `<text x="${width / 2}" y="${height - 20}" text-anchor="middle" fill="#e8e8e8" font-family="'Crimson Pro', serif" font-size="16" font-style="italic">Founder Hometown</text>`;
-    svg += `<text x="25" y="${height / 2}" text-anchor="middle" fill="#e8e8e8" font-family="'Crimson Pro', serif" font-size="16" font-style="italic" transform="rotate(-90, 25, ${height / 2})">Number of Founders</text>`;
+    svg += `<text x="${width / 2}" y="${height - 20}" text-anchor="middle" fill="#2d2d2d" font-family="'Crimson Pro', serif" font-size="15" font-style="italic" font-weight="300">Founder Hometown</text>`;
+    svg += `<text x="25" y="${height / 2}" text-anchor="middle" fill="#2d2d2d" font-family="'Crimson Pro', serif" font-size="15" font-style="italic" font-weight="300" transform="rotate(-90, 25, ${height / 2})">Number of Founders</text>`;
 
     svg += `</svg>`;
     container.innerHTML = svg;
@@ -464,8 +483,8 @@ function renderUniversityChart() {
         <svg viewBox="0 0 ${width} ${height}" class="themed-chart">
             <defs>
                 <linearGradient id="universityGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#00d4aa;stop-opacity:0.8"/>
-                    <stop offset="100%" style="stop-color:#00ffff;stop-opacity:0.8"/>
+                    <stop offset="0%" style="stop-color:#a8c686;stop-opacity:0.8"/>
+                    <stop offset="100%" style="stop-color:#8bc0c0;stop-opacity:0.8"/>
                 </linearGradient>
                 <filter id="glow">
                     <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -475,15 +494,15 @@ function renderUniversityChart() {
                     </feMerge>
                 </filter>
             </defs>
-            
-            <rect x="0" y="0" width="${width}" height="${height}" fill="#0a0a0a"/>
+
+            <rect x="0" y="0" width="${width}" height="${height}" fill="rgba(255, 255, 255, 0.5)"/>
     `;
 
     // Grid lines
     for (let i = 0; i <= maxCount; i++) {
         const y = padding.top + chartHeight - (i / maxCount) * chartHeight;
-        svg += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="#2a2a2a" stroke-width="1"/>`;
-        svg += `<text x="${padding.left - 15}" y="${y + 5}" text-anchor="end" fill="#8a8a8a" font-family="'EB Garamond', serif" font-size="14">${i}</text>`;
+        svg += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>`;
+        svg += `<text x="${padding.left - 15}" y="${y + 5}" text-anchor="end" fill="#6a6a6a" font-family="Inter, sans-serif" font-size="13" font-weight="300">${i}</text>`;
     }
 
     // Bars
@@ -492,22 +511,22 @@ function renderUniversityChart() {
         const barHeight = (universityCounts[university] / maxCount) * chartHeight;
         const y = padding.top + chartHeight - barHeight;
         const companies = universityCompanies[university].join(', ');
-        
+
         const labelX = x + barWidth / 2;
         const labelY = height - padding.bottom + 15;
         svg += `
             <g class="bar-group" data-university="${university}" data-count="${universityCounts[university]}" data-companies="${companies}">
-                <rect class="bar-glow" x="${x - 2}" y="${y - 2}" width="${barWidth + 4}" height="${barHeight + 4}" fill="#00d4aa" opacity="0" filter="url(#glow)"/>
-                <rect class="bar" x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="url(#universityGrad)" opacity="0.8"/>
-                <text x="${labelX}" y="${labelY}" text-anchor="end" fill="#e8e8e8" font-family="'EB Garamond', serif" font-size="10" transform="rotate(-45, ${labelX}, ${labelY})">${university}</text>
-                <text class="count-label" x="${x + barWidth / 2}" y="${y - 10}" text-anchor="middle" fill="#00d4aa" font-family="'Crimson Pro', serif" font-size="16" font-weight="600" opacity="0">${universityCounts[university]}</text>
+                <rect class="bar-glow" x="${x - 2}" y="${y - 2}" width="${barWidth + 4}" height="${barHeight + 4}" fill="#a8c686" opacity="0" filter="url(#glow)"/>
+                <rect class="bar" x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="url(#universityGrad)" opacity="0.85"/>
+                <text x="${labelX}" y="${labelY}" text-anchor="end" fill="#2d2d2d" font-family="Inter, sans-serif" font-size="10" font-weight="300" transform="rotate(-45, ${labelX}, ${labelY})">${university}</text>
+                <text class="count-label" x="${x + barWidth / 2}" y="${y - 10}" text-anchor="middle" fill="#a8c686" font-family="'Crimson Pro', serif" font-size="15" font-weight="400" font-style="italic" opacity="0">${universityCounts[university]}</text>
             </g>
         `;
     });
 
     // Axis labels
-    svg += `<text x="${width / 2}" y="${height - 20}" text-anchor="middle" fill="#e8e8e8" font-family="'Crimson Pro', serif" font-size="16" font-style="italic">Undergraduate University</text>`;
-    svg += `<text x="25" y="${height / 2}" text-anchor="middle" fill="#e8e8e8" font-family="'Crimson Pro', serif" font-size="16" font-style="italic" transform="rotate(-90, 25, ${height / 2})">Number of Founders</text>`;
+    svg += `<text x="${width / 2}" y="${height - 20}" text-anchor="middle" fill="#2d2d2d" font-family="'Crimson Pro', serif" font-size="15" font-style="italic" font-weight="300">Undergraduate University</text>`;
+    svg += `<text x="25" y="${height / 2}" text-anchor="middle" fill="#2d2d2d" font-family="'Crimson Pro', serif" font-size="15" font-style="italic" font-weight="300" transform="rotate(-90, 25, ${height / 2})">Number of Founders</text>`;
 
     svg += `</svg>`;
     container.innerHTML = svg;
@@ -544,8 +563,8 @@ function renderInvestorChart() {
         <svg viewBox="0 0 ${width} ${height}" class="themed-chart">
             <defs>
                 <linearGradient id="investorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#ff6b35;stop-opacity:0.8"/>
-                    <stop offset="100%" style="stop-color:#d4380d;stop-opacity:0.8"/>
+                    <stop offset="0%" style="stop-color:#e8a0bf;stop-opacity:0.8"/>
+                    <stop offset="100%" style="stop-color:#b19cd9;stop-opacity:0.8"/>
                 </linearGradient>
                 <filter id="glow">
                     <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -555,15 +574,15 @@ function renderInvestorChart() {
                     </feMerge>
                 </filter>
             </defs>
-            
-            <rect x="0" y="0" width="${width}" height="${height}" fill="#0a0a0a"/>
+
+            <rect x="0" y="0" width="${width}" height="${height}" fill="rgba(255, 255, 255, 0.5)"/>
     `;
 
     // Grid lines
     for (let i = 0; i <= maxCount; i++) {
         const y = padding.top + chartHeight - (i / maxCount) * chartHeight;
-        svg += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="#2a2a2a" stroke-width="1"/>`;
-        svg += `<text x="${padding.left - 15}" y="${y + 5}" text-anchor="end" fill="#8a8a8a" font-family="'EB Garamond', serif" font-size="14">${i}</text>`;
+        svg += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>`;
+        svg += `<text x="${padding.left - 15}" y="${y + 5}" text-anchor="end" fill="#6a6a6a" font-family="Inter, sans-serif" font-size="13" font-weight="300">${i}</text>`;
     }
 
     // Bars
@@ -572,22 +591,22 @@ function renderInvestorChart() {
         const barHeight = (investorCounts[investor] / maxCount) * chartHeight;
         const y = padding.top + chartHeight - barHeight;
         const companies = investorCompanies[investor].join(', ');
-        
+
         const labelX = x + barWidth / 2;
         const labelY = height - padding.bottom + 15;
         svg += `
             <g class="bar-group" data-investor="${investor}" data-count="${investorCounts[investor]}" data-companies="${companies}">
-                <rect class="bar-glow" x="${x - 2}" y="${y - 2}" width="${barWidth + 4}" height="${barHeight + 4}" fill="#d4380d" opacity="0" filter="url(#glow)"/>
-                <rect class="bar" x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="url(#investorGrad)" opacity="0.8"/>
-                <text x="${labelX}" y="${labelY}" text-anchor="end" fill="#e8e8e8" font-family="'EB Garamond', serif" font-size="10" transform="rotate(-45, ${labelX}, ${labelY})">${investor}</text>
-                <text class="count-label" x="${x + barWidth / 2}" y="${y - 10}" text-anchor="middle" fill="#d4380d" font-family="'Crimson Pro', serif" font-size="16" font-weight="600" opacity="0">${investorCounts[investor]}</text>
+                <rect class="bar-glow" x="${x - 2}" y="${y - 2}" width="${barWidth + 4}" height="${barHeight + 4}" fill="#e8a0bf" opacity="0" filter="url(#glow)"/>
+                <rect class="bar" x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="url(#investorGrad)" opacity="0.85"/>
+                <text x="${labelX}" y="${labelY}" text-anchor="end" fill="#2d2d2d" font-family="Inter, sans-serif" font-size="10" font-weight="300" transform="rotate(-45, ${labelX}, ${labelY})">${investor}</text>
+                <text class="count-label" x="${x + barWidth / 2}" y="${y - 10}" text-anchor="middle" fill="#e8a0bf" font-family="'Crimson Pro', serif" font-size="15" font-weight="400" font-style="italic" opacity="0">${investorCounts[investor]}</text>
             </g>
         `;
     });
 
     // Axis labels
-    svg += `<text x="${width / 2}" y="${height - 20}" text-anchor="middle" fill="#e8e8e8" font-family="'Crimson Pro', serif" font-size="16" font-style="italic">First Lead Investor</text>`;
-    svg += `<text x="25" y="${height / 2}" text-anchor="middle" fill="#e8e8e8" font-family="'Crimson Pro', serif" font-size="16" font-style="italic" transform="rotate(-90, 25, ${height / 2})">Number of Companies</text>`;
+    svg += `<text x="${width / 2}" y="${height - 20}" text-anchor="middle" fill="#2d2d2d" font-family="'Crimson Pro', serif" font-size="15" font-style="italic" font-weight="300">First Lead Investor</text>`;
+    svg += `<text x="25" y="${height / 2}" text-anchor="middle" fill="#2d2d2d" font-family="'Crimson Pro', serif" font-size="15" font-style="italic" font-weight="300" transform="rotate(-90, 25, ${height / 2})">Number of Companies</text>`;
 
     svg += `</svg>`;
     container.innerHTML = svg;
@@ -604,18 +623,20 @@ function addBarHoverEffects(container) {
         tooltip.id = 'chart-tooltip';
         tooltip.style.cssText = `
             position: fixed;
-            background: rgba(10, 10, 10, 0.95);
-            border: 1px solid #2a2a2a;
-            border-radius: 4px;
-            padding: 8px 12px;
-            font-family: 'EB Garamond', serif;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+            padding: 10px 14px;
+            font-family: 'Inter', sans-serif;
             font-size: 13px;
-            color: #e8e8e8;
+            font-weight: 300;
+            color: #2d2d2d;
             pointer-events: none;
             z-index: 10000;
             max-width: 250px;
             display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         `;
         document.body.appendChild(tooltip);
     }
@@ -631,7 +652,7 @@ function addBarHoverEffects(container) {
             // Show tooltip with company list
             const companies = bar.dataset.companies;
             if (companies) {
-                tooltip.innerHTML = `<strong style="color: #00ffff;">Companies:</strong><br>${companies}`;
+                tooltip.innerHTML = `<strong style="color: #5499a0; font-weight: 500;">Companies:</strong><br>${companies}`;
                 tooltip.style.display = 'block';
             }
         });
