@@ -1,0 +1,226 @@
+[
+  {
+    "company": "Scale AI",
+    "founded": 2016,
+    "ageAtFounding": 19,
+    "undergrad": "MIT",
+    "hometown": "US (Non-Bay Area)",
+    "firstLeadInvestor": "Outlander"
+  },
+  {
+    "company": "Decagon",
+    "founded": 2023,
+    "ageAtFounding": 27,
+    "undergrad": "Harvard",
+    "hometown": "US (Non-Bay Area)",
+    "firstLeadInvestor": "Plug and Play"
+  },
+  {
+    "company": "Anthropic",
+    "founded": 2021,
+    "ageAtFounding": 37,
+    "undergrad": "Stanford",
+    "hometown": "US (Bay Area)",
+    "firstLeadInvestor": "Jaan Tallinn"
+  },
+  {
+    "company": "EvenUp",
+    "founded": 2020,
+    "ageAtFounding": 28,
+    "undergrad": "McGill",
+    "hometown": "US (Bay Area)",
+    "firstLeadInvestor": "NFX"
+  },
+  {
+    "company": "Abridge",
+    "founded": 2018,
+    "ageAtFounding": 39,
+    "undergrad": "Carnegie Mellon",
+    "hometown": "US (Non-Bay Area)",
+    "firstLeadInvestor": "UPMC"
+  },
+  {
+    "company": "CoreWeave",
+    "founded": 2017,
+    "ageAtFounding": 48,
+    "undergrad": "Binghamton",
+    "hometown": "US (Non-Bay Area)",
+    "firstLeadInvestor": "Magnetar"
+  },
+  {
+    "company": "Character AI",
+    "founded": 2021,
+    "ageAtFounding": 45,
+    "undergrad": "Duke",
+    "hometown": "US (Non-Bay Area)",
+    "firstLeadInvestor": "NA"
+  },
+  {
+    "company": "Glean",
+    "founded": 2019,
+    "ageAtFounding": 45,
+    "undergrad": "IIT Delhi",
+    "hometown": "India",
+    "firstLeadInvestor": "Kleiner"
+  },
+  {
+    "company": "Perplexity",
+    "founded": 2022,
+    "ageAtFounding": 28,
+    "undergrad": "IIT Madras",
+    "hometown": "India",
+    "firstLeadInvestor": "NEA"
+  },
+  {
+    "company": "ElevenLabs",
+    "founded": 2022,
+    "ageAtFounding": 27,
+    "undergrad": "ICL",
+    "hometown": "Poland",
+    "firstLeadInvestor": "Credo"
+  },
+  {
+    "company": "Neon",
+    "founded": 2021,
+    "ageAtFounding": 42,
+    "undergrad": "ITMO",
+    "hometown": "Russia",
+    "firstLeadInvestor": "Notable"
+  },
+  {
+    "company": "Clay",
+    "founded": 2017,
+    "ageAtFounding": 31,
+    "undergrad": "McGill",
+    "hometown": "Egypt",
+    "firstLeadInvestor": "BoxGroup"
+  },
+  {
+    "company": "Cursor",
+    "founded": 2022,
+    "ageAtFounding": 23,
+    "undergrad": "MIT",
+    "hometown": "US (Bay Area)",
+    "firstLeadInvestor": "OpenAI"
+  },
+  {
+    "company": "Fal",
+    "founded": 2021,
+    "ageAtFounding": 31,
+    "undergrad": "MIT",
+    "hometown": "Turkey",
+    "firstLeadInvestor": "a16z"
+  },
+  {
+    "company": "Fireworks",
+    "founded": 2022,
+    "ageAtFounding": 46,
+    "undergrad": "Fudan",
+    "hometown": "China",
+    "firstLeadInvestor": "Benchmark"
+  },
+  {
+    "company": "Harvey",
+    "founded": 2022,
+    "ageAtFounding": 27,
+    "undergrad": "Kenyon College",
+    "hometown": "US (Bay Area)",
+    "firstLeadInvestor": "OpenAI"
+  },
+  {
+    "company": "Lovable",
+    "founded": 2023,
+    "ageAtFounding": 30,
+    "undergrad": "KTH",
+    "hometown": "Sweden",
+    "firstLeadInvestor": "byFounders"
+  },
+  {
+    "company": "Databricks",
+    "founded": 2013,
+    "ageAtFounding": 34,
+    "undergrad": "Mid Sweden University",
+    "hometown": "Iran",
+    "firstLeadInvestor": "a16z"
+  },
+  {
+    "company": "OpenAI",
+    "founded": 2015,
+    "ageAtFounding": 30,
+    "undergrad": "Stanford",
+    "hometown": "US (Non-Bay Area)",
+    "firstLeadInvestor": "Khosla"
+  },
+  {
+    "company": "n8n",
+    "founded": 2019,
+    "ageAtFounding": 32,
+    "undergrad": "Scientific-Technical University",
+    "hometown": "Germany",
+    "firstLeadInvestor": "Firstminute"
+  },
+  {
+    "company": "Replit",
+    "founded": 2016,
+    "ageAtFounding": 27,
+    "undergrad": "Princess Sumaya University",
+    "hometown": "Jordan",
+    "firstLeadInvestor": "YC"
+  },
+  {
+    "company": "Runway",
+    "founded": 2018,
+    "ageAtFounding": 28,
+    "undergrad": "Adolfo Ibáñez University",
+    "hometown": "Chile",
+    "firstLeadInvestor": "Lux"
+  },
+  {
+    "company": "Supabase",
+    "founded": 2020,
+    "ageAtFounding": 35,
+    "undergrad": "Canterbury",
+    "hometown": "New Zealand",
+    "firstLeadInvestor": "YC"
+  },
+  {
+    "company": "Together",
+    "founded": 2022,
+    "ageAtFounding": 45,
+    "undergrad": "St. Stephen's Delhi",
+    "hometown": "India",
+    "firstLeadInvestor": "Cadenza"
+  },
+  {
+    "company": "Windsurf",
+    "founded": 2021,
+    "ageAtFounding": 24,
+    "undergrad": "MIT",
+    "hometown": "US (Bay Area)",
+    "firstLeadInvestor": "Greenoaks"
+  },
+  {
+    "company": "Writer",
+    "founded": 2020,
+    "ageAtFounding": 34,
+    "undergrad": "Harvard",
+    "hometown": "Lebanon",
+    "firstLeadInvestor": "Upfront"
+  },
+  {
+    "company": "Ambience",
+    "founded": 2020,
+    "ageAtFounding": 35,
+    "undergrad": "University of Sydney",
+    "hometown": "Australia",
+    "firstLeadInvestor": "500 Global"
+  },
+  {
+    "company": "Mercor",
+    "founded": 2022,
+    "ageAtFounding": 20,
+    "undergrad": "Georgetown",
+    "hometown": "US (Bay Area)",
+    "firstLeadInvestor": "General Catalyst"
+  }
+]
